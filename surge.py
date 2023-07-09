@@ -53,28 +53,37 @@ for i in range(len(y_pred)):
     if abs(y_pred[i] - y_val[i]) > threshold:
         rapid_changes.append((timestamps[i + window_size], y_val[i]))
 
-# Group rapid changes by day and calculate average
-rapid_changes_by_day = {}
+# Group rapid changes by time of day and calculate average
+rapid_changes_by_time = {}
 for timestamp, glucose in rapid_changes:
-    day = timestamp.date()
-    if day in rapid_changes_by_day:
-        rapid_changes_by_day[day].append(glucose)
+    time = timestamp.time()
+    if time in rapid_changes_by_time:
+        rapid_changes_by_time[time].append(glucose)
     else:
-        rapid_changes_by_day[day] = [glucose]
+        rapid_changes_by_time[time] = [glucose]
+
+# Calculate average rapid changes per time of day
+average_rapid_changes = {}
+for time, changes in rapid_changes_by_time.items():
+    average_rapid_changes[time] = np.mean(changes)
+
 
 # Calculate average rapid changes per day
 average_rapid_changes = {}
 for day, changes in rapid_changes_by_day.items():
     average_rapid_changes[day] = np.mean(changes)
 
-# Create a sorted list of days and their corresponding average rapid changes
-sorted_days = sorted(average_rapid_changes.keys())
-average_changes = [average_rapid_changes[day] for day in sorted_days]
+# Create lists of times and average rapid changes
+times = sorted(average_rapid_changes.keys())
+average_changes = [average_rapid_changes[time] for time in times]
 
-# Plot the graph of average rapid changes per day
-plt.plot(sorted_days, average_changes)
-plt.xlabel('Day')
-plt.ylabel('Average Rapid Changes')
-plt.title('Average Rapid Changes in Glucose Levels per Day')
+# Plot the graph of average rapid changes per time of day
+fig, ax = plt.subplots()
+ax.plot(times, average_changes)
+ax.set_xlabel('Time of Day')
+ax.set_ylabel('Average Rapid Changes')
+ax.set_title('Average Rapid Changes in Glucose Levels by Time of Day')
+ax.xaxis.set_major_locator(plt.MaxNLocator(10))
 plt.xticks(rotation=45)
 plt.show()
+
