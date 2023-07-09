@@ -25,12 +25,13 @@ for i in range(1, len(glucose_levels) - 1):
 
 # Plot the spikes in glucose levels for each day
 for day, spike_times in spike_times_by_day.items():
-    fig, ax = plt.subplots()
     day_timestamps = [timestamps[i] for i in range(len(timestamps)) if timestamps[i].date() == day]
     day_glucose_levels = [glucose_levels[i] for i in range(len(timestamps)) if timestamps[i].date() == day]
+
+    fig, ax = plt.subplots()
     ax.plot(day_timestamps, day_glucose_levels, label='Glucose Levels')
-    ax.scatter([timestamps[timestamps.tolist().index(time)] for time in spike_times],
-               [glucose_levels[timestamps.tolist().index(time)] for time in spike_times],
+    ax.scatter([timestamps[i] for i in range(len(timestamps)) if timestamps[i].time() in spike_times],
+               [glucose_levels[i] for i in range(len(timestamps)) if timestamps[i].time() in spike_times],
                color='red', label='Spikes')
     ax.set_xlabel('Timestamp')
     ax.set_ylabel('Glucose Levels')
@@ -44,3 +45,4 @@ for day, spike_times in spike_times_by_day.items():
         print(time)
 
     print("--------------------")
+
