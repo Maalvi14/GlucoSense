@@ -38,11 +38,11 @@ for day, spike_times in spike_times_by_day.items():
     ax.set_title(f'Glucose Level Spikes - {day}')
     ax.legend()
     fig.autofmt_xdate()
-    plt.show(block=True)
+
+    plt.show()
 
     print(f"Spikes in glucose levels for {day} were detected at the following times:")
     for time in spike_times:
         print(time)
 
     print("--------------------")
-
