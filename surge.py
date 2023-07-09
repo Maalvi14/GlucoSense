@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from IPython import get_ipython
+from IPython.display import display
 
 # Load and preprocess the data
 data = pd.read_csv('data.csv')
@@ -39,7 +41,8 @@ for day, spike_times in spike_times_by_day.items():
     ax.legend()
     fig.autofmt_xdate()
 
-    plt.show()
+    # Display the graph inline
+    display(fig)
 
     print(f"Spikes in glucose levels for {day} were detected at the following times:")
     for time in spike_times:
