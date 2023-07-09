@@ -31,27 +31,21 @@ for i in range(window_size, len(glucose_levels)):
 X = np.array(X)
 y = np.array(y)
 
-# Split the data into training and validation sets
-split_index = int(0.8 * len(X))
-X_train, X_val = X[:split_index], X[split_index:]
-y_train, y_val = y[:split_index], y[split_index:]
-
 # Reshape the data for LSTM input
-X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
-X_val = np.reshape(X_val, (X_val.shape[0], X_val.shape[1], 1))
+X = np.reshape(X, (X.shape[0], X.shape[1], 1))
 
 # Train the model
-model.fit(X_train, y_train, epochs=10, validation_data=(X_val, y_val))
+model.fit(X, y, epochs=10)
 
-# Predict on the validation set
-y_pred = model.predict(X_val)
+# Predict on the entire dataset
+y_pred = model.predict(X)
 
 # Detect rapid changes in glucose levels
 threshold = 0.5  # Adjust this threshold based on your data
 rapid_changes = []
 for i in range(len(y_pred)):
-    if abs(y_pred[i] - y_val[i]) > threshold:
-        rapid_changes.append((timestamps[i + window_size], y_val[i]))
+    if abs(y_pred[i] - y[i]) > threshold:
+        rapid_changes.append((timestamps[i + window_size], y[i]))
 
 # Group rapid changes by time of day and calculate average
 rapid_changes_by_time = {}
@@ -67,12 +61,6 @@ average_rapid_changes = {}
 for time, changes in rapid_changes_by_time.items():
     average_rapid_changes[time] = np.mean(changes)
 
-
-# Calculate average rapid changes per day
-average_rapid_changes = {}
-for day, changes in rapid_changes_by_day.items():
-    average_rapid_changes[day] = np.mean(changes)
-
 # Create lists of times and average rapid changes
 times = sorted(average_rapid_changes.keys())
 average_changes = [average_rapid_changes[time] for time in times]
@@ -86,4 +74,3 @@ ax.set_title('Average Rapid Changes in Glucose Levels by Time of Day')
 ax.xaxis.set_major_locator(plt.MaxNLocator(10))
 plt.xticks(rotation=45)
 plt.show()
-
