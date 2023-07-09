@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Load and preprocess the data
 data = pd.read_csv('data.csv')
 glucose_levels = data['glucose_levels'].values
-timestamps = pd.to_datetime(data['timestamps'])
+timestamps = pd.to_datetime(data['timestamps'], format='%d-%m-%Y %H:%M')
 
 # Normalize the glucose levels
 glucose_levels = (glucose_levels - np.mean(glucose_levels)) / np.std(glucose_levels)
