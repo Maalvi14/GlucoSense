@@ -35,7 +35,7 @@ glucose_levels,timestamps
 
 4. Open a terminal or command prompt, navigate to the directory containing the code, and run the following command:
 
-python glucose_rapid_changes.py
+python surge.py
 
 
 5. The program will train an LSTM model on the provided data and detect rapid changes in glucose levels. The detected rapid changes will be printed to the console, and a graph of the average rapid changes per day will be displayed.
