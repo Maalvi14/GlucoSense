@@ -62,7 +62,7 @@ for time, changes in rapid_changes_by_time.items():
     average_rapid_changes[time] = np.mean(changes)
 
 # Create lists of times and average rapid changes
-times = sorted(average_rapid_changes.keys())
+times = [str(time) for time in sorted(average_rapid_changes.keys())]
 average_changes = [average_rapid_changes[time] for time in times]
 
 # Plot the graph of average rapid changes per time of day
