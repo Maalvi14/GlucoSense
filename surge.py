@@ -63,7 +63,7 @@ for time, changes in rapid_changes_by_time.items():
 
 # Create lists of times and average rapid changes
 times = [str(time) for time in sorted(average_rapid_changes.keys())]
-average_changes = [average_rapid_changes[time] for time in times]
+average_changes = [average_rapid_changes.get(time, 0) for time in times]
 
 # Plot the graph of average rapid changes per time of day
 fig, ax = plt.subplots()
