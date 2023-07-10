@@ -69,7 +69,7 @@ average_changes = [average_rapid_changes.get(time, 0) for time in times]
 fig, ax = plt.subplots()
 ax.plot(times, average_changes)
 ax.set_xlabel('Time of Day')
-ax.set_ylabel('Average Rapid Changes')
+ax.set_ylabel('Real Data - Predicted Data Threshold')
 ax.set_title('Average Rapid Changes in Glucose Levels by Time of Day')
 ax.xaxis.set_major_locator(plt.MaxNLocator(10))
 plt.xticks(rotation=45)
